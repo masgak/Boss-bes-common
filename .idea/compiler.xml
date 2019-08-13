@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Boss-bes-common-exception-logging" />
+        <module name="Boss-bes-common-logging" />
+        <module name="Boss-bes-common-utils" />
+        <module name="Boss-bes-common-exception" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Boss-bes-common-exception" target="1.5" />
+      <module name="Boss-bes-common-exception-logging" target="1.5" />
+      <module name="Boss-bes-common-logging" target="1.5" />
+      <module name="Boss-bes-common-utils" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Boss-bes-common.iml" filepath="$PROJECT_DIR$/.idea/Boss-bes-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Boss-bes-common-exception/Boss-bes-common-exception.iml" filepath="$PROJECT_DIR$/Boss-bes-common-exception/Boss-bes-common-exception.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Boss-bes-common-exception-logging/Boss-bes-common-exception-logging.iml" filepath="$PROJECT_DIR$/Boss-bes-common-exception-logging/Boss-bes-common-exception-logging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Boss-bes-common-logging/Boss-bes-common-logging.iml" filepath="$PROJECT_DIR$/Boss-bes-common-logging/Boss-bes-common-logging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Boss-bes-common-utils/Boss-bes-common-utils.iml" filepath="$PROJECT_DIR$/Boss-bes-common-utils/Boss-bes-common-utils.iml" />
+    </modules>
+  </component>
+</project>
