@@ -1,0 +1,9 @@
+#忽略Idea生成的输出文件
+**/target/
+**/out/
+
+#忽略idea项目文件
+*/.idea
+*/.project
+*/.setting
+*.iml
