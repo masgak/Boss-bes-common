@@ -4,5 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 public class StringUtilsTest {
-
+    @Test
+    public void testCategoryService() {
+    }
 }

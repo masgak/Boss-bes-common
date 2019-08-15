@@ -2,7 +2,7 @@ package com.bosssoft.hr.train;
 
 /**
  * Hello world!
- *
+ * @Author null
  */
 public class App 
 {

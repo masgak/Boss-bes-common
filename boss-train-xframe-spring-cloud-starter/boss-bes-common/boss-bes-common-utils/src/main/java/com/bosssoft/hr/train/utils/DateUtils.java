@@ -16,7 +16,7 @@ public class DateUtils {
      * 获取当前时间
      * @return
      */
-    public static Date getDate() {
+    public static synchronized Date getDate() {
         Date currentTime = new Date();
         return currentTime;
     }
@@ -25,7 +25,7 @@ public class DateUtils {
      * 获取当前时间
      * @return 返回字符串形式的当前时间
      */
-    public static synchronized String getDateToString() {
+    public static  String getDateToString() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-DD HH:MM:SS");
         return sdf.format(new Date());
     }
@@ -33,7 +33,7 @@ public class DateUtils {
 
     /**
      * 将字符串转为date形式
-     * @param '需要转化的字符串'str
+     * @param str'需要转化的字符串'
      * @return '返回date格式'
      */
     public static Date getDateFromString(String str){
