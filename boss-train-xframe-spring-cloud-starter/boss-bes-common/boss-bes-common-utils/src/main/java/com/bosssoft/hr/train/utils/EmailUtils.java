@@ -29,9 +29,9 @@ public class EmailUtils {
         mailSender.setHost("smtp.qq.com");
         //ssl加密，避开25端口
         mailSender.setPort(465);
-        mailSender.setUsername("2238114559@qq.com");
+        mailSender.setUsername("2609339303@qq.com");
         //qq邮箱验证码
-        mailSender.setPassword("iogjgitbdjvkdifi");
+        mailSender.setPassword("ornfjpfpesxddjcf");
         //加认证机制
 
         Properties properties = new Properties();
@@ -61,7 +61,7 @@ public class EmailUtils {
         mailSender.setJavaMailProperties(properties);
         //创建邮件内容
         SimpleMailMessage message=new SimpleMailMessage();
-        message.setFrom("2238114559@qq.com");
+        message.setFrom("2609339303@qq.com");
         message.setTo(email);
         message.setSubject(subject);
         message.setText(msg);

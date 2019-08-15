@@ -19,7 +19,7 @@ public class JwtUtils {
     /**
      * 解密
      * @param jsonWebToken '解析json'
-     * @param base64Security '设置解密方法'
+     * @param base64Security '设置密钥'
      * @return '解密后的json数据'
      */
     public static Claims parseJwt(String jsonWebToken, String base64Security) {
@@ -37,7 +37,7 @@ public class JwtUtils {
     /**
      * 前三个参数为自己用户token的一些信息比如id，权限，名称等。不要将隐私信息放入（大家都可以获取到）
      * @param map '将要存入token的信息设置为map'
-     * @param base64Security '声明加密方法'
+     * @param base64Security '声明密钥'
      * @return ‘生成的token’
      */
     public static String createJwt(Map<String, Object> map, String base64Security) {

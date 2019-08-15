@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class StringUtils {
 
     /**
-     * 用于分割字符串
+     * 将字符串按照输入大小分割并存入数组，输入1234,2 得到数组[12,34]
      * @param content'需要分割的字符串'
      * @param len‘字符串分割长度’
      * @return ‘分割后的字符数组’splitContent
@@ -26,7 +26,6 @@ public class StringUtils {
             return new String[] { content };
         } else {
             int i = len2 / len + 1;
-            System.out.println("i:" + i);
             String[] splitContent = new String[i];
             int j = 0;
             int begin = 0;
@@ -73,7 +72,8 @@ public class StringUtils {
     }
 
     /**
-     * 验证字符串是否为汉字
+     * (暂时无法使用)
+     * 验证字符串是否为汉字(使用character无法检测汉字，需要后续引入Apache Commons)
      * @param '需要验证的字符串'character
      * @return 是汉字返回TRUE
      */
@@ -149,7 +149,7 @@ public class StringUtils {
      */
     public static boolean avoidSql(String str) {
         String sqlKey = "'|and|exec|insert|select|delete|update|count|*|%|chr|mid|master|truncate|char|declare|;|or|-|+|,";
-        String[] keyNum = sqlKey.split("|");
+        String[] keyNum = sqlKey.split("\\|");
         for (int i=0 ; i < keyNum.length ; i++ )
         {
             if (str.indexOf(keyNum[i])>=0)
@@ -161,7 +161,7 @@ public class StringUtils {
     }
 
     /**
-     * 生成五位随机数
+     * 生成六位随机数
      * @return 加密值
      */
     public static String randomNum(){

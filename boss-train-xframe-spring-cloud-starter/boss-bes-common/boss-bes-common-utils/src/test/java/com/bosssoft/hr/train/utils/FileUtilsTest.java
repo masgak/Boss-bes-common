@@ -2,7 +2,7 @@ package com.bosssoft.hr.train.utils;
 
 import org.junit.Test;
 
-public class FileUtils {
+public class FileUtilsTest {
     @Test
     public void testFileUtils() {
     }

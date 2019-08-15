@@ -26,7 +26,8 @@ public class DateUtils {
      * @return 返回字符串形式的当前时间
      */
     public static  String getDateToString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-DD HH:MM:SS");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
     }
 
@@ -37,7 +38,7 @@ public class DateUtils {
      * @return '返回date格式'
      */
     public static Date getDateFromString(String str){
-         SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-DD HH:MM:SS");
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
          if ("".equals(str) || str == null) {
              return null;
          }

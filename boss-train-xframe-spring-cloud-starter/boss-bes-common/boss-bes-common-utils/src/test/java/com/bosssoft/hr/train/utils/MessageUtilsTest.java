@@ -2,8 +2,9 @@ package com.bosssoft.hr.train.utils;
 
 import org.junit.Test;
 
-public class EncodeUtils {
+public class MessageUtilsTest {
     @Test
-    public void testEncodeUtils() {
+    public void testMessageUtils() {
+
     }
 }
