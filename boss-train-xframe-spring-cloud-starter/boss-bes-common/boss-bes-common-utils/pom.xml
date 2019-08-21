@@ -45,6 +45,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+            <version>2.1.6.RELEASE</version>
         </dependency>
 
         <!-- 邮件加密 -->
@@ -101,6 +102,11 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
         </dependency>
     </dependencies>
 
