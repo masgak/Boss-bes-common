@@ -18,7 +18,6 @@
     <modules>
         <module>boss-bes-common-utils</module>
         <module>boss-bes-common-logging</module>
-        <module>boss-bes-common-logging</module>
     </modules>
 
     <properties>
