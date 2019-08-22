@@ -3,11 +3,16 @@ package com.bosssoft.bes.base.commonfield.aspect;
 import com.alibaba.fastjson.JSONObject;
 import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
 import com.bosssoft.bes.base.coredata.vo.CommonRequest;
+import com.bosssoft.bes.base.enums.BesDataExceptionEnum;
+import com.bosssoft.bes.base.exception.ServiceException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -67,13 +72,13 @@ public class CommonFieldAspect {
      */
     @Before("commonFieldPoint()")
     public void setCommonField(JoinPoint joinPoint) throws Exception {
-        System.out.println("SetCommonField");
         //获取httprequest对象，解析参数获取CommonRequest中携带的请求用户id
         Long userId = getUserIdFromRequest();
         if(null == userId  ){
             /**
              * @// FIXME: 2019/8/15 未找到用户id，抛出异常
              */
+           // throw new ServiceException(BesDataExceptionEnum.CATEGORY_IN_USE);
         }
 
         //通过userId获取相应字段值
@@ -103,7 +108,6 @@ public class CommonFieldAspect {
                 commonField.setUpdatedBy(null);
                 commonField.setUpdatedTime(null);
                 commonField.setCreatedBy(null);
-                commonField.setVersion(null);
             }
         }
         //获取切点第一个参数
@@ -163,15 +167,27 @@ public class CommonFieldAspect {
      * @return 需要设置的公共字段对象
      */
     private CommonField getCommonFieldByUserId(Long userId){
-        //测试先返回设定好的值
+        RedisTemplate redisTemplate = new RedisTemplate();
+        String redisKey = "user_info_" + userId;
+
+        SetOperations<String,UserInfo> setOperations = redisTemplate.opsForSet();
+        
+        UserInfo userInfo = setOperations.pop(redisKey);
+        
+        if(null == userInfo){
+            /**
+             * @// FIXME: 2019/8/22 未查找到用户信息
+             */
+            return null;
+        }
+
         CommonField commonField = new CommonField();
-        commonField.setOrgId(1L);
-        commonField.setCompanyId(1L);
-        commonField.setCreatedBy(1L);
+        commonField.setOrgId(userInfo.getOrgId());
+        commonField.setCompanyId(userInfo.getCompanyId());
+        commonField.setCreatedBy(userInfo.getUserId());
         commonField.setCreatedTime(Timestamp.valueOf(LocalDateTime.now()));
-        commonField.setUpdatedBy(1L);
+        commonField.setUpdatedBy(userInfo.getUserId());
         commonField.setUpdatedTime(commonField.getCreatedTime());
-        commonField.setVersion(1L);
         return commonField;
     }
 

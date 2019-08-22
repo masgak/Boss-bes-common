@@ -37,10 +37,6 @@ public class CommonField {
      * 最后修改时间
      */
     private Timestamp updatedTime;
-    /**
-     * 版本标识
-     */
-    private Long version;
 
     public CommonField(){}
 
@@ -53,7 +49,6 @@ public class CommonField {
                 ", createdTime=" + createdTime +
                 ", updatedBy=" + updatedBy +
                 ", updatedTime=" + updatedTime +
-                ", version=" + version +
                 '}';
     }
 
@@ -103,13 +98,5 @@ public class CommonField {
 
     public void setUpdatedTime(Timestamp updatedTime) {
         this.updatedTime = updatedTime;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 }

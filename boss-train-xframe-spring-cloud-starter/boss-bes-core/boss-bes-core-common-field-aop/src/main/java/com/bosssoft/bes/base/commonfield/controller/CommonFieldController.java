@@ -17,7 +17,13 @@ public class CommonFieldController {
 
     @RequestMapping("/insert")
     public void insert(){
-        serviceTest.insert(new CommonFieldTest());
+
+        try {
+            serviceTest.insert(new CommonFieldTest());
+        }catch (Exception e){
+            System.out.println("抛出到了controller层");
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping("/update")
