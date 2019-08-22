@@ -1,6 +1,6 @@
-package com.bosssoft.bes.base.aspect;
+package com.bosssoft.bes.base.commonfield.aspect;
 
-import com.bosssoft.bes.base.annotation.SetCommonField;
+import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -56,7 +56,7 @@ public class CommonFieldAspect {
     /**
      * 定义增强处理切入点为CommonField注解所注方法
      */
-    @Pointcut("@annotation(com.bosssoft.bes.base.annotation.SetCommonField)")
+    @Pointcut("@annotation(com.bosssoft.bes.base.commonfield.annotation.SetCommonField)")
     public void commonFieldPoint(){}
 
     /**

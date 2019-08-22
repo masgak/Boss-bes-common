@@ -1,6 +1,6 @@
-package com.bosssoft.bes.base.service;
+package com.bosssoft.bes.base.commonfield.service;
 
-import com.bosssoft.bes.base.entity.CommonFieldTest;
+import com.bosssoft.bes.base.commonfield.entity.CommonFieldTest;
 
 public interface ServiceTest {
     public void insert(CommonFieldTest commonFieldTest);

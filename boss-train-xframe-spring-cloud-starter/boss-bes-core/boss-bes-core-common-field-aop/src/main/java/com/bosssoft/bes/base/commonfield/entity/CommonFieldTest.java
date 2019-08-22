@@ -1,18 +1,8 @@
-package com.bosssoft.bes.base.aspect;
+package com.bosssoft.bes.base.commonfield.entity;
 
 import java.sql.Timestamp;
 
-/**
- * 封装所有需要设置的公共字段类
- *
- * @author 李旭阳
- * @createdTime 2019/8/15 13点38分
- * @version 1.0.0
- * @updateBy 李旭阳
- * @updatedTime 2019/8/15 13点41分
- *
- */
-public class CommonField {
+public class CommonFieldTest {
     /**
      * 组织机构id
      */
@@ -42,11 +32,11 @@ public class CommonField {
      */
     private Long version;
 
-    public CommonField(){}
+    private String test = "This is test!";
 
     @Override
     public String toString() {
-        return "CommonField{" +
+        return "CommonFieldTest{" +
                 "orgId=" + orgId +
                 ", companyId=" + companyId +
                 ", createdBy=" + createdBy +
@@ -54,6 +44,7 @@ public class CommonField {
                 ", updatedBy=" + updatedBy +
                 ", updatedTime=" + updatedTime +
                 ", version=" + version +
+                ", test='" + test + '\'' +
                 '}';
     }
 
@@ -111,5 +102,13 @@ public class CommonField {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
     }
 }
