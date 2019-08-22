@@ -1,14 +1,16 @@
 package com.bosssoft.bes.base.utils;
 
-import com.bosssoft.bes.base.properties.EmailProperties;
-import com.bosssoft.bes.base.service.EmailService;
-import com.sun.mail.util.MailSSLSocketFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import java.security.GeneralSecurityException;
+import java.util.Date;
 import java.util.Properties;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  * 用于与发送邮件有关的接口
@@ -19,65 +21,53 @@ import java.util.Properties;
  */
 public class EmailUtils {
 
-    @Autowired
-    private  EmailService emailService;
+//    @Autowired
+//    private  EmailService emailService;
 
+    // 发件人账号
+    public static final String MY_EMAIL_ACCOUNT = "bosssoftexam@163.com";
+    // 授权码
+    public static final String MY_EMAIL_PASSWORD = "bosssoft1998";
+
+    // SMTP服务器
+    public static final String MEAIL_163_SMTP_HOST = "smtp.163.com";
+    // 163端口号，QQ是465或者875
+    public static final String SMTP_163_PORT = "25";
 
     /**
-     * @param email'接收人邮件地址'
-     * @param subject'邮件主题'
-     * @param msg'邮件正文'
+     *
+     * @param receiver 接受者邮箱,多个账号使用逗号分离
+     * @param subject 邮件主题
+     * @param content 邮件内容
      */
-    public  void simpleMailSend(String email, String subject, String msg) {
-        EmailProperties emailProperties = emailService.getEmailProperties();
-        //创建邮件发送服务器
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.qq.com");
-        mailSender.setHost(emailProperties.getHost());
-        //ssl加密，避开25端口
-        mailSender.setPort(emailProperties.getPort());
-        mailSender.setUsername(emailProperties.getUserName());
-//        mailSender.setPort(465);
-//        mailSender.setUsername("2609339303@qq.com");
-        //qq邮箱验证码
-        mailSender.setPassword(emailProperties.getPassword());
+    public static void sendSimpleMail(String receiver, String subject, String content) throws AddressException, MessagingException{
+        Properties p = new Properties();
+        p.setProperty("mail.smtp.host", MEAIL_163_SMTP_HOST);
+        p.setProperty("mail.smtp.port", SMTP_163_PORT);
+        p.setProperty("mail.smtp.socketFactory.port", SMTP_163_PORT);
+        p.setProperty("mail.smtp.auth", "true");
+        p.setProperty("mail.smtp.socketFactory.class", "SSL_FACTORY");
 
-//        mailSender.setPassword("ornfjpfpesxddjcf");
-        //加认证机制
+        Session session = Session.getInstance(p, new Authenticator() {
+            // 设置认证账户信息
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(MY_EMAIL_ACCOUNT, MY_EMAIL_PASSWORD);
+            }
+        });
+        session.setDebug(true);
+        MimeMessage message = new MimeMessage(session);
+        // 发件人
+        message.setFrom(new InternetAddress(MY_EMAIL_ACCOUNT));
+        // 收件人
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver));
 
-        Properties properties = new Properties();
-        //开启认证
-        properties.setProperty("mail.smtp.auth", "false");
-        //启用调试
-        properties.setProperty("mail.debug", "true");
-        properties.setProperty("mail.smtp.starttls", "true");
-        //Transport使用SSL连接邮箱协议名称需要使用smtps，而不是smtp
-        properties.setProperty("mail.transport.protocol", "smtps");
-        //设置链接超时
-        properties.setProperty("mail.smtp.timeout", "1000");
-        // SSL
-        properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        properties.setProperty("mail.smtp.socketFactory.fallback", "false");
-        properties.setProperty("mail.smtp.port", emailProperties.getPort().toString());
-        properties.setProperty("mail.smtp.socketFactory.port", emailProperties.getPort().toString());
-        MailSSLSocketFactory sf = null;
-        try {
-            sf = new MailSSLSocketFactory();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        }
-        sf.setTrustAllHosts(true);
-        properties.put("mail.smtp.ssl.enable", "true");
-        properties.put("mail.smtp.ssl.socketFactory", sf);
-        mailSender.setJavaMailProperties(properties);
-        //创建邮件内容
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(emailProperties.getUserName());
-        message.setTo(email);
+        // 内容
         message.setSubject(subject);
-        message.setText(msg);
-        //发送邮件
-        mailSender.send(message);
-        System.out.println("发送成功");
+        message.setContent("<h1>"+content+"</h1>", "text/html;charset=UTF-8");
+        message.setSentDate(new Date());
+        message.saveChanges();
+        System.out.println("准备发送");
+        Transport.send(message);
     }
 }
