@@ -4,20 +4,18 @@ import com.alibaba.fastjson.JSON;
 import com.bosssoft.bes.base.logging.annotation.ApiLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 
 /**
  * @author : huangyuhui
- * @date : 2019/8/15 0015
+ * @date : 2019/8/15
  * @Description : 日志切面类
  */
 @Aspect
@@ -36,47 +34,49 @@ public class LogAspect {
 	/**
 	 * 请求接口地址
 	 */
-	private String url;
+	private static  String url;
 	/**
 	 * 接口的说明信息
 	 */
-	private String description;
+	private static String description;
 	/**
 	 * 请求的方法
 	 */
-	private String httpMethod;
+	private static String httpMethod;
 	/**
 	 * 被请求的方法路径：包名+方法名
 	 */
-	private String classMethod;
+	private static String classMethod;
 	/**
 	 * 请求方的IP
 	 */
-	private String ip;
+	private static String ip;
 	/**
 	 * 请求入参
 	 */
-	private String requestArgs;
+	private static String requestArgs;
 	/**
 	 *响应出参
 	 */
-	private String responseArgs;
+	private static String responseArgs;
 	/**
 	 *请求耗时
 	 */
-	private Long timeConsuming;
+	private static Long timeConsuming;
 
+	/**
+	 * 切入点
+	 */
+	@Pointcut("@annotation(com.bosssoft.bes.base.logging.annotation.ApiLog)")
+	public void pointcut(){}
 
 	/**
 	 * 环绕处理
 	 * @param proceedingJoinPoint 处理节点
-	 * @param al 注解
-	 * @return
-	 * @throws Throwable
+	 * @return 返回方法返参
 	 */
-	@Around("@annotation(al)")
-	public Object doAround(ProceedingJoinPoint proceedingJoinPoint, ApiLog al) throws Throwable{
-		System.out.println("测试");
+	@Around("pointcut()")
+	public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
 		Long startTime=System.currentTimeMillis();
 		Object result=proceedingJoinPoint.proceed();
 		responseArgs=JSON.toJSONString(result);
@@ -89,35 +89,44 @@ public class LogAspect {
 
 	/**
 	 * 前置处理
-	 * @param joinPoint
-	 * @param al
+	 * @param joinPoint 连接点
 	 */
-	@Before("@annotation(al)")
-	public void doBefore(JoinPoint joinPoint,ApiLog al){
+	@Before("pointcut()")
+	public void doBefore(JoinPoint joinPoint){
 		url=request.getRequestURL().toString();
-		description=al.desc();
+		description=getAspectLogDescription(joinPoint);
 		httpMethod=request.getMethod();
 		classMethod=joinPoint.getSignature().getDeclaringTypeName()+"."
-									+joinPoint.getSignature().getName();
+				+joinPoint.getSignature().getName();
 		ip=request.getRemoteAddr();
 		requestArgs=JSON.toJSONString(joinPoint.getArgs());
 
-		LOGGER.info("==========================Start==========================");
+		LOGGER.info("==============================Start==============================");
 		LOGGER.info("URL							:	{}",url);
 		LOGGER.info("Descrption				:	{}",description);
 		LOGGER.info("HTTP Method			:	{}",httpMethod);
 		LOGGER.info("Class Method			: 	{}",classMethod);
-		LOGGER.info("IP							: 	{}",ip);
+		LOGGER.info("IP				       		: 	{}",ip);
 		LOGGER.info("Request Args			:	{}",requestArgs);
 	}
 
 
 	/**
 	 * 后置处理
-	 * @param al
 	 */
-	@After("@annotation(al)")
-	public void doAfter(ApiLog al){
-		LOGGER.info("==========================End===========================");
+	@After("pointcut()")
+	public void doAfter(){
+		LOGGER.info("==============================End===============================");
+	}
+
+	/**
+	 * 获取注解的desc，即方法的描述
+	 * @param joinPoint 连接点
+	 * @return desc的内容
+	 */
+	private String getAspectLogDescription (JoinPoint joinPoint){
+		Method method = ((MethodSignature)joinPoint.getSignature()).getMethod();
+		ApiLog apiLog=method.getAnnotation(ApiLog.class);
+		return apiLog.desc();
 	}
 }
