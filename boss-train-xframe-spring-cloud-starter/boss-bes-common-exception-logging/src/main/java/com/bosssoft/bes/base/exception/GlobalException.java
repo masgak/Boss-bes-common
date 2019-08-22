@@ -1,7 +1,5 @@
 package com.bosssoft.bes.base.exception;
 
-import java.io.Serializable;
-
 /**
  * @ClassName: GlobalException
  * @Description: TODO
@@ -9,7 +7,7 @@ import java.io.Serializable;
  * @Date: 2019/8/10 23:28
  * @Version: 1.0.0
  */
-public class GlobalException extends RuntimeException implements Serializable {
+public class GlobalException extends RuntimeException {
 
 
     private static final long serialVersionUID = -5279026448701847887L;

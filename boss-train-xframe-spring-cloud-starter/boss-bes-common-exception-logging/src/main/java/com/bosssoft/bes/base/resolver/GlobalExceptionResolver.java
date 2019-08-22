@@ -1,8 +1,8 @@
 package com.bosssoft.bes.base.resolver;
 
-import com.bosssoft.bes.base.vo.CommonResponse;
-import com.bosssoft.bes.base.exception.GlobalException;
+import com.bosssoft.bes.base.exception.BusinessException;
 import com.bosssoft.bes.base.utils.ResultUtils;
+import com.bosssoft.bes.base.vo.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +29,16 @@ public class GlobalExceptionResolver {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionResolver.class);
 
-    @ExceptionHandler({GlobalException.class,MethodArgumentNotValidException.class})
+    @ExceptionHandler({BusinessException.class,MethodArgumentNotValidException.class})
     @ResponseBody
     public CommonResponse handleException(Exception e) {
         //判断是否是系统自定义异常
-        if (e instanceof GlobalException) {
-            return  ResultUtils.error(((GlobalException) e).getCode(),e.getMessage());
+        if (e instanceof BusinessException) {
+            System.out.println(e);
+            return  ResultUtils.error(((BusinessException) e).getCode(),e.getMessage());
         }
         //判断是否是参数异常
         if (e instanceof MethodArgumentNotValidException){
-            LOGGER.info("测试");
 
             LOGGER.info(((MethodArgumentNotValidException) e).getBindingResult().getAllErrors().toString());
             //此处的BindException为Spring框架抛出的Validation异常
@@ -47,7 +47,7 @@ public class GlobalExceptionResolver {
             List<ObjectError> errorList = methodArgumentNotValidException.getBindingResult().getAllErrors();
             List<String> result = new ArrayList<>();
             for (ObjectError objectError : errorList){
-               result.add(objectError.getDefaultMessage());
+                result.add(objectError.getDefaultMessage());
             }
             return ResultUtils.error(20000,result.toString());
             //抛出的异常可能不止一个

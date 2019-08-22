@@ -12,10 +12,6 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 public @interface ApiLog {
-	/*
-	String pointcut() default "execution(* *(..))";*
-	*/
-
 	/**
 	 *附加描述、备注
 	 * @return
