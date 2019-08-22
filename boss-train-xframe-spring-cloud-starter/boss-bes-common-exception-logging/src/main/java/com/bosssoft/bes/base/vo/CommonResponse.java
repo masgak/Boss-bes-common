@@ -10,7 +10,6 @@ import java.io.Serializable;
  * @Version: 1.0.0
  */
 public class CommonResponse<T> implements Serializable {
-
     private Head head;
 
     private T object;

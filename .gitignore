@@ -3,7 +3,8 @@
 **/out/
 
 #忽略idea项目文件
-*/.idea
+**/.idea
+.idea
 */.project
 */.setting
 *.iml

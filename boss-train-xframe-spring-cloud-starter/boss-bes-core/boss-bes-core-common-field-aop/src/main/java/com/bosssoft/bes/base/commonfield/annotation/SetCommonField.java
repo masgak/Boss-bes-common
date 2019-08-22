@@ -1,4 +1,4 @@
-package com.bosssoft.bes.base.annotation;
+package com.bosssoft.bes.base.commonfield.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

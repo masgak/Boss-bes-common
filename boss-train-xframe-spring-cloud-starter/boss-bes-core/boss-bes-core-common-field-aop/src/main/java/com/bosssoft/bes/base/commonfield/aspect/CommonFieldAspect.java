@@ -1,11 +1,19 @@
-package com.bosssoft.bes.base.aspect;
+package com.bosssoft.bes.base.commonfield.aspect;
 
-import com.bosssoft.bes.base.annotation.SetCommonField;
+import com.alibaba.fastjson.JSONObject;
+import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
+import com.bosssoft.bes.base.coredata.vo.CommonRequest;
+import com.bosssoft.bes.base.enums.BesDataExceptionEnum;
+import com.bosssoft.bes.base.enums.SystemExceptionEnum;
+import com.bosssoft.bes.base.exception.ServiceException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,10 +31,10 @@ import java.time.LocalDateTime;
  * 公共字段设置aspect
  *
  * @author 李旭阳
- * @createdTime 2019/8/15 11点08分
+ * @createdTime 2019/8/15 11:08
  * @version 1.0.0
  * @updateBy 李旭阳
- * @updatedTime 2019/8/15 11点09分
+ * @updatedTime 2019/8/22 14:45
  *
  */
 @Aspect
@@ -56,7 +64,7 @@ public class CommonFieldAspect {
     /**
      * 定义增强处理切入点为CommonField注解所注方法
      */
-    @Pointcut("@annotation(com.bosssoft.bes.base.annotation.SetCommonField)")
+    @Pointcut("@annotation(com.bosssoft.bes.base.commonfield.annotation.SetCommonField)")
     public void commonFieldPoint(){}
 
     /**
@@ -64,14 +72,11 @@ public class CommonFieldAspect {
      * @param joinPoint 连接点
      */
     @Before("commonFieldPoint()")
-    public void setCommonField(JoinPoint joinPoint) throws Exception {
-        System.out.println("SetCommonField");
+    public void setCommonField(JoinPoint joinPoint) throws ServiceException {
         //获取httprequest对象，解析参数获取CommonRequest中携带的请求用户id
         Long userId = getUserIdFromRequest();
-        if(userId == null){
-            /**
-             * @// FIXME: 2019/8/15 未找到用户id，抛出异常
-             */
+        if(null == userId){
+            throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_USER_NOT_FOUND_ON_REQUEST);
         }
 
         //通过userId获取相应字段值
@@ -82,7 +87,6 @@ public class CommonFieldAspect {
 
         //根据方法类型从commonField对象中抽取不同字段设置进入切入点方法参数中
         int result = setFields(commonField,joinPoint,methodType);
-
     }
 
     /**
@@ -93,7 +97,7 @@ public class CommonFieldAspect {
      * @param methodType 所切方法类型
      * @return int 执行情况 0表示正常完成
      */
-    private int setFields(CommonField commonField, JoinPoint joinPoint, String methodType) throws Exception {
+    private int setFields(CommonField commonField, JoinPoint joinPoint, String methodType) throws ServiceException {
         if(!TYPE_INSERT.equals(methodType)){
             commonField.setCreatedBy(null);
             commonField.setCreatedTime(null);
@@ -101,7 +105,6 @@ public class CommonFieldAspect {
                 commonField.setUpdatedBy(null);
                 commonField.setUpdatedTime(null);
                 commonField.setCreatedBy(null);
-                commonField.setVersion(null);
             }
         }
         //获取切点第一个参数
@@ -115,17 +118,21 @@ public class CommonFieldAspect {
         }
         Field[] fields = commonField.getClass().getDeclaredFields();
         //遍历CommonField所有字段
-        for(Field field:fields){
-            field.setAccessible(true);
-            Object fieldValue = field.get(commonField);
-            //字段非null时将其设值给切点参数param
-            if(null!=fieldValue){
-                //获取param对应的setter方法后执行
-                String fieldName = field.getName();
-                fieldName = fieldName.substring(0,1).toUpperCase() + fieldName.substring(1);
-                Method fieldSetter = param.getClass().getMethod("set"+fieldName,field.getType());
-                fieldSetter.invoke(param,fieldValue);
+        try {
+            for (Field field : fields) {
+                field.setAccessible(true);
+                Object fieldValue = field.get(commonField);
+                //字段非null时将其设值给切点参数param
+                if (null != fieldValue) {
+                    //获取param对应的setter方法后执行
+                    String fieldName = field.getName();
+                    fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+                    Method fieldSetter = param.getClass().getMethod("set" + fieldName, field.getType());
+                    fieldSetter.invoke(param, fieldValue);
+                }
             }
+        }catch (Exception e){
+            throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_SET_ERROR);
         }
         return 0;
     }
@@ -135,22 +142,27 @@ public class CommonFieldAspect {
      *
      * @return 用户id,未找到返回null
      */
-    private Long getUserIdFromRequest() throws IOException {
-        //测试先直接设值
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-                .getRequestAttributes()).getRequest();
-        BufferedReader streamReader = new BufferedReader( new InputStreamReader(request.getInputStream(), "UTF-8"));
-        StringBuilder stringBuilder = new StringBuilder();
-        String inputStr;
-        while ((inputStr = streamReader.readLine()) != null) {
-            stringBuilder.append(inputStr);
-        }
+    private Long getUserIdFromRequest() throws ServiceException {
+        try {//测试先直接设值
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                    .getRequestAttributes()).getRequest();
+            BufferedReader streamReader = new BufferedReader( new InputStreamReader(request.getInputStream(), "UTF-8"));
+            StringBuilder stringBuilder = new StringBuilder();
+            String inputStr;
+            while ((inputStr = streamReader.readLine()) != null) {
+                stringBuilder.append(inputStr);
+            }
 
-        /*
-        CommonRequest commonRequest = JSONObject.parse(stringBuilder.toString());
-        commonRequest.getToken();
-        */
-        return 1L;
+            CommonRequest commonRequest = JSONObject.parseObject(stringBuilder.toString(),CommonRequest.class);
+            Long userId = null;
+            /**
+             @// FIXME: 2019/8/22 调用Jwt工具方法从token解析出userId
+              *  Long userId = JwtUtil.commonRequest.getRequestHead().getToken();
+             */
+            return userId;
+        }catch (IOException e){
+            throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_REQUEST_PARSE_ERROR);
+        }
     }
 
     /**
@@ -159,16 +171,25 @@ public class CommonFieldAspect {
      * @param userId 用户id
      * @return 需要设置的公共字段对象
      */
-    private CommonField getCommonFieldByUserId(Long userId){
-        //测试先返回设定好的值
+    private CommonField getCommonFieldByUserId(Long userId) throws ServiceException{
+        RedisTemplate redisTemplate = new RedisTemplate();
+        String redisKey = "user_info_" + userId;
+
+        SetOperations<String,UserInfo> setOperations = redisTemplate.opsForSet();
+        
+        UserInfo userInfo = setOperations.pop(redisKey);
+        
+        if(null == userInfo){
+            throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_USER_NOT_FOUND_ON_CACHE);
+        }
+
         CommonField commonField = new CommonField();
-        commonField.setOrgId(1L);
-        commonField.setCompanyId(1L);
-        commonField.setCreatedBy(1L);
+        commonField.setOrgId(userInfo.getOrgId());
+        commonField.setCompanyId(userInfo.getCompanyId());
+        commonField.setCreatedBy(userInfo.getUserId());
         commonField.setCreatedTime(Timestamp.valueOf(LocalDateTime.now()));
-        commonField.setUpdatedBy(1L);
+        commonField.setUpdatedBy(userInfo.getUserId());
         commonField.setUpdatedTime(commonField.getCreatedTime());
-        commonField.setVersion(1L);
         return commonField;
     }
 
