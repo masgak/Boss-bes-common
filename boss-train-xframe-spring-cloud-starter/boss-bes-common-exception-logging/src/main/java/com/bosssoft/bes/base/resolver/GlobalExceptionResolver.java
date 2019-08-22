@@ -1,5 +1,6 @@
 package com.bosssoft.bes.base.resolver;
 
+import com.bosssoft.bes.base.enums.SystemExceptionEnum;
 import com.bosssoft.bes.base.exception.BusinessException;
 import com.bosssoft.bes.base.utils.ResultUtils;
 import com.bosssoft.bes.base.vo.CommonResponse;
@@ -60,7 +61,7 @@ public class GlobalExceptionResolver {
 
         }
         LOGGER.error("【系统异常】{}",e);
-        return  ResultUtils.error(1,"系统异常");
+        return  ResultUtils.error(SystemExceptionEnum.SYSTEM_ERROR.getCode(),SystemExceptionEnum.SYSTEM_ERROR.getMessage());
     }
 
 }
