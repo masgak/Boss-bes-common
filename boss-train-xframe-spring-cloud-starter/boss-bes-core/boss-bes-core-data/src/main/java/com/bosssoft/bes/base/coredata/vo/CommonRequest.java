@@ -9,10 +9,10 @@ import java.io.Serializable;
  * @createdTime 2019/8/22 9:43
  * @version 1.0.0
  * @updateBy 李旭阳
- * @updatedTime 2019/8/22 10:02
+ * @updatedTime 2019/8/22 11:03
  *
  */
-public class CommonRequest<T> implements Serializable {
+public class CommonRequest implements Serializable {
     /**
      * 请求头部
      */
@@ -21,11 +21,11 @@ public class CommonRequest<T> implements Serializable {
     /**
      * 请求体
      */
-    private T body;
+    private Object body;
 
     public CommonRequest(){}
 
-    public CommonRequest(RequestHead requestHead, T body) {
+    public CommonRequest(RequestHead requestHead, Object body) {
         this.requestHead = requestHead;
         this.body = body;
     }
@@ -46,11 +46,11 @@ public class CommonRequest<T> implements Serializable {
         this.requestHead = requestHead;
     }
 
-    public T getBody() {
+    public Object getBody() {
         return body;
     }
 
-    public void setBody(T body) {
+    public void setBody(Object body) {
         this.body = body;
     }
 }

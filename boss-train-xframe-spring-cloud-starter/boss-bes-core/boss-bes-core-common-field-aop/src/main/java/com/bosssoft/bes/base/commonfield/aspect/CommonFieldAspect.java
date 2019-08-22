@@ -1,6 +1,8 @@
 package com.bosssoft.bes.base.commonfield.aspect;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
+import com.bosssoft.bes.base.coredata.vo.CommonRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -68,7 +70,7 @@ public class CommonFieldAspect {
         System.out.println("SetCommonField");
         //获取httprequest对象，解析参数获取CommonRequest中携带的请求用户id
         Long userId = getUserIdFromRequest();
-        if(userId == null){
+        if(null == userId  ){
             /**
              * @// FIXME: 2019/8/15 未找到用户id，抛出异常
              */
@@ -135,7 +137,7 @@ public class CommonFieldAspect {
      *
      * @return 用户id,未找到返回null
      */
-    private Long getUserIdFromRequest() throws IOException {
+    private Long getUserIdFromRequest() throws Exception {
         //测试先直接设值
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes()).getRequest();
@@ -145,12 +147,13 @@ public class CommonFieldAspect {
         while ((inputStr = streamReader.readLine()) != null) {
             stringBuilder.append(inputStr);
         }
-
-        /*
-        CommonRequest commonRequest = JSONObject.parse(stringBuilder.toString());
-        commonRequest.getToken();
-        */
-        return 1L;
+        CommonRequest commonRequest = JSONObject.parseObject(stringBuilder.toString(),CommonRequest.class);
+        Long userId = null;
+        /**
+            @// FIXME: 2019/8/22 调用Jwt工具方法从token解析出userId
+         *  Long userId = JwtUtil.commonRequest.getRequestHead().getToken();
+         */
+        return userId;
     }
 
     /**
