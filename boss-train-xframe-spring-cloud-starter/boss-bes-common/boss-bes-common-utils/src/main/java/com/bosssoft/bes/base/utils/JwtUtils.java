@@ -1,10 +1,7 @@
 package com.bosssoft.bes.base.utils;
 
 import com.google.gson.Gson;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 
 import java.util.Map;
 
@@ -45,9 +42,14 @@ public class JwtUtils {
         //添加构成JWT的参数
         JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
                 .setPayload(new Gson().toJson(map))
+                .setId((String)map.get("id"))
                 .signWith(signatureAlgorithm,base64Security.getBytes());
         //生成JWT
         return builder.compact();
+    }
+
+    public static String getTokenId(String jsonWebToken, String base64Security){
+        return parseJwt(jsonWebToken,base64Security).getId();
     }
 
 }
