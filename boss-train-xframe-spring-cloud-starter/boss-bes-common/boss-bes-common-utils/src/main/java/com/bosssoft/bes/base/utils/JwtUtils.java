@@ -52,4 +52,19 @@ public class JwtUtils {
         return parseJwt(jsonWebToken,base64Security).getId();
     }
 
+    /**
+     * 从jwt中获取指定字段
+     *
+     * @param jsonWebToken jwt
+     * @param fieldName 要获取的字段名
+     * @return 返回Object对象
+     */
+    public static Object get(String jsonWebToken,String base64Security,String fieldName){
+        Claims claims = parseJwt(jsonWebToken,base64Security);
+        Object obj = null;
+        if (null != claims) {
+            obj = claims.get(fieldName);
+        }
+        return obj;
+    }
 }

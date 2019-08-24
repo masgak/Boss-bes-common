@@ -1,17 +1,14 @@
 package com.bosssoft.bes.base.commonfield.aspect;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
-import com.bosssoft.bes.base.coredata.vo.CommonRequest;
-import com.bosssoft.bes.base.enums.BesDataExceptionEnum;
 import com.bosssoft.bes.base.enums.SystemExceptionEnum;
 import com.bosssoft.bes.base.exception.ServiceException;
+import com.bosssoft.bes.base.utils.JwtUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Component;
@@ -26,6 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 公共字段设置aspect
@@ -143,26 +141,16 @@ public class CommonFieldAspect {
      * @return 用户id,未找到返回null
      */
     private Long getUserIdFromRequest() throws ServiceException {
-        try {//测试先直接设值
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-                    .getRequestAttributes()).getRequest();
-            BufferedReader streamReader = new BufferedReader( new InputStreamReader(request.getInputStream(), "UTF-8"));
-            StringBuilder stringBuilder = new StringBuilder();
-            String inputStr;
-            while ((inputStr = streamReader.readLine()) != null) {
-                stringBuilder.append(inputStr);
-            }
-
-            CommonRequest commonRequest = JSONObject.parseObject(stringBuilder.toString(),CommonRequest.class);
-            Long userId = null;
-            /**
-             @// FIXME: 2019/8/22 调用Jwt工具方法从token解析出userId
-              *  Long userId = JwtUtil.commonRequest.getRequestHead().getToken();
-             */
-            return userId;
-        }catch (IOException e){
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+                .getRequestAttributes())).getRequest();
+        String token = request.getHeader("token");
+        if(null == token){
             throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_REQUEST_PARSE_ERROR);
         }
+        /**
+         * @// FIXME: 2019/8/24 从配置文件获取密钥base64Security
+         */
+        return (Long)JwtUtils.get(token,null,"userId");
     }
 
     /**
