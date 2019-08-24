@@ -150,7 +150,7 @@ public class CommonFieldAspect {
         /**
          * @// FIXME: 2019/8/24 从配置文件获取密钥base64Security
          */
-        return (Long)JwtUtils.get(token,null,"userId");
+        return (Long)JwtUtils.get(token,"userId");
     }
 
     /**
