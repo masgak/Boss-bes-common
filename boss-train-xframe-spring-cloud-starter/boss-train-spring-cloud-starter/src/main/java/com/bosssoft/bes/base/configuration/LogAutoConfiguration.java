@@ -1,5 +1,6 @@
 package com.bosssoft.bes.base.configuration;
 
+import com.bosssoft.bes.base.coredata.aspect.HttpLogAspect;
 import com.bosssoft.bes.base.logging.aspect.LogAspect;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,5 +28,13 @@ public class LogAutoConfiguration {
     @ConditionalOnMissingBean(LogAspect.class)
     public LogAspect logAspect(){
         return  new LogAspect();
+    }
+
+
+    @Bean
+    @ConditionalOnClass(HttpLogAspect.class)
+    @ConditionalOnMissingBean(HttpLogAspect.class)
+    public HttpLogAspect httpLogAspect(){
+        return  new HttpLogAspect();
     }
 }
