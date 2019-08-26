@@ -1,10 +1,11 @@
 package com.bosssoft.bes.base.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bosssoft.bes.base.vo.CommonResponse;
-import com.bosssoft.bes.base.vo.Head;
+import com.bosssoft.bes.base.coredata.vo.CommonResponse;
+import com.bosssoft.bes.base.coredata.vo.ResponseHead;
 
 /**
+ * 异常信息封装
  * @ClassName: ResultUtils
  * @Description: TODO
  * @Author: lujinshan
@@ -12,25 +13,35 @@ import com.bosssoft.bes.base.vo.Head;
  * @Version: 1.0.0
  */
 public class ResultUtils {
-
+    /**
+     * 封装成功信息
+     * @param object
+     * @return
+     */
     public static CommonResponse success(Object object){
         CommonResponse commonResponse = new CommonResponse();
-        Head head = new Head();
+        ResponseHead head = new ResponseHead();
+        //成功
         head.setCode("0");
         head.setMessage("success");
-
-        commonResponse.setHead(head);
-        commonResponse.setObject(JSONObject.parseObject(object.toString()));
+        commonResponse.setResponseHead(head);
+        commonResponse.setBody(JSONObject.parseObject(object.toString()));
         return commonResponse;
     }
 
+    /**
+     * 封装失败信息
+     * @param code
+     * @param message
+     * @return
+     */
     public static CommonResponse error(Integer code , String message){
         CommonResponse commonResponse = new CommonResponse();
-        Head head = new Head();
+        ResponseHead head = new ResponseHead();
+        //填入异常码和异常信息
         head.setCode(code.toString());
         head.setMessage(message);
-        commonResponse.setHead(head);
-
+        commonResponse.setResponseHead(head);
         return commonResponse;
     }
 }

@@ -3,6 +3,7 @@ package com.bosssoft.bes.base.exception;
 import com.bosssoft.bes.base.enums.*;
 
 /**
+ * 统一异常基类
  * @ClassName: GlobalException
  * @Description: TODO
  * @Author: lujinshan
