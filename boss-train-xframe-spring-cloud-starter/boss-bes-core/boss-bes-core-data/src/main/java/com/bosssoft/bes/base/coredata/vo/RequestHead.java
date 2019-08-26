@@ -16,10 +16,6 @@ public class RequestHead {
      */
     private String version;
     /**
-     * JWT校验token
-     */
-    private String token;
-    /**
      * 请求的业务类型
      */
     private String businessType;
@@ -38,9 +34,8 @@ public class RequestHead {
 
     public RequestHead(){}
 
-    public RequestHead(String version, String token, String businessType, String deviceId, Integer deviceType, Integer encryption) {
+    public RequestHead(String version, String businessType, String deviceId, Integer deviceType, Integer encryption) {
         this.version = version;
-        this.token = token;
         this.businessType = businessType;
         this.deviceId = deviceId;
         this.deviceType = deviceType;
@@ -51,7 +46,6 @@ public class RequestHead {
     public String toString() {
         return "RequestHead{" +
                 "version='" + version + '\'' +
-                ", token='" + token + '\'' +
                 ", businessType='" + businessType + '\'' +
                 ", deviceId='" + deviceId + '\'' +
                 ", deviceType=" + deviceType +
@@ -65,14 +59,6 @@ public class RequestHead {
 
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public String getBusinessType() {

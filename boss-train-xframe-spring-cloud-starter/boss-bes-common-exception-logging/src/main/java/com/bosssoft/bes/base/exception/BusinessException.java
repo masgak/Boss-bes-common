@@ -5,6 +5,7 @@ import com.bosssoft.bes.base.enums.*;
 import java.io.Serializable;
 
 /**
+ * 业务异常
  * @ClassName: BusinessException
  * @Description: TODO
  * @Author: lujinshan

@@ -19,6 +19,7 @@ import java.util.Date;
 
 
 /**
+ * 全局异常切面
  * @ClassName: ParamCheckAop
  * @Description: TODO
  * @Author: lujinshan
