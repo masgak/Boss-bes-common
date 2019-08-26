@@ -22,6 +22,15 @@ public class DateUtils {
     }
 
     /**
+     *
+     * @return 返回自从GMT 1970-01-01 00:00:00到此date对象上时间的毫秒数。
+     */
+    public static Long getTime() {
+        Date currentTime = new Date();
+        return currentTime.getTime();
+    }
+
+    /**
      * 获取当前时间
      * @return 返回字符串形式的当前时间
      */

@@ -1,55 +1,110 @@
 package com.bosssoft.bes.base.utils;
 
-import com.google.gson.Gson;
-import io.jsonwebtoken.*;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.RSASSASigner;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
+import net.minidev.json.JSONObject;
 
+import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 用于与jwt操作有关的接口
- *
- * @author : wukeqiang
- * @version : 1.0.0
- * @date : 2019/8/15
+ * @author wukeqiang
  */
 public class JwtUtils {
+
     /**
-     * 解密
-     * @param jsonWebToken '解析json'
-     * @param base64Security '设置密钥'
-     * @return '解密后的json数据'
+     * 创建加密key
      */
-    public static Claims parseJwt(String jsonWebToken, String base64Security) {
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(base64Security.getBytes())
-                    .parseClaimsJws(jsonWebToken).getBody();
-            return claims;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
+    public static RSAKey getKey() throws JOSEException {
+        RSAKeyGenerator rsaKeyGenerator = new RSAKeyGenerator(2048);
+        RSAKey rsaJwk = rsaKeyGenerator.generate();
+        System.out.println("加密key是" + rsaJwk);
+        return rsaJwk;
+    }
+
+    /**
+     * @param payloadMap token的主题部分
+     * @param rsaJwk     rsa加密密钥
+     * @return 加密后的token
+     * @throws JOSEException
+     */
+    public static String creatToken(Map<String, Object> payloadMap, RSAKey rsaJwk) throws JOSEException {
+        //私密钥匙
+        JWSSigner signer = new RSASSASigner(rsaJwk);
+        //构建token主体
+        JWSObject jwsObject = new JWSObject(
+                new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(rsaJwk.getKeyID()).build(),
+                new Payload(new JSONObject(payloadMap))
+        );
+        //进行加密
+        jwsObject.sign(signer);
+        //生成token
+        String token = jwsObject.serialize();
+        return token;
+    }
+
+    /**
+     * @param token  相关token
+     * @param rsaJwk 相关密钥
+     * @return
+     * @throws ParseException
+     * @throws JOSEException
+     */
+    public static Map<String, Object> validToken(String token, RSAKey rsaJwk) throws ParseException, JOSEException {
+        //获取到公钥
+        RSAKey rsaKey = rsaJwk.toPublicJWK();
+        JWSObject jwsObject = JWSObject.parse(token);
+        JWSVerifier jwsVerifier = new RSASSAVerifier(rsaKey);
+        //验证数据
+        Map<String, Object> tokenMap = new HashMap<>();
+        //记录token主体信息
+        Payload payload = jwsObject.getPayload();
+        //判断token是否合法
+        if (jwsObject.verify(jwsVerifier)) {
+            tokenMap.put("Result", 0);
+            //将token数据转为json对象
+            JSONObject jsonObject = payload.toJSONObject();
+            //将token数据存入map中
+            tokenMap.put("Data", jsonObject);
+            //判断token是否过期
+            if (jsonObject.containsKey("exp")) {
+                //获取token保存的过期时间
+                Long expTime = Long.valueOf(jsonObject.get("exp").toString());
+                //获取当前时间戳
+                Long nowTime = DateUtils.getTime();
+                //判断是否过期
+                if (nowTime > expTime) {
+                    //清除token信息，将其标志为过期
+                    tokenMap.clear();
+                    tokenMap.put("Result", 2);
+                }
+            }
+        } else {
+            //将token标志为不合法
+            tokenMap.put("Result", 1);
         }
+        return tokenMap;
     }
 
-    /**
-     * 前三个参数为自己用户token的一些信息比如id，权限，名称等。不要将隐私信息放入（大家都可以获取到）
-     * @param map '将要存入token的信息设置为map'
-     * @param base64Security '声明密钥'
-     * @return ‘生成的token’
-     */
-    public static String createJwt(Map<String, Object> map, String base64Security) {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        //添加构成JWT的参数
-        JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
-                .setPayload(new Gson().toJson(map))
-                .setId((String)map.get("id"))
-                .signWith(signatureAlgorithm,base64Security.getBytes());
-        //生成JWT
-        return builder.compact();
+    //从token获取相关参数
+    public static Object get(String token, RSAKey rsaJwk ,String fieldName){
+        try {
+            Map<String, Object> validMap = JwtUtils.validToken(token,rsaJwk);
+            JSONObject jsonObject = (JSONObject) validMap.get("Data");
+            if (jsonObject.get(fieldName) == null){
+                return "该参数不存在";
+            }else{
+                return jsonObject.get(fieldName);
+            }
+        }catch (ParseException e){
+            e.printStackTrace();
+        }catch (JOSEException e){
+            e.printStackTrace();
+        }
+        return null;
     }
-
-    public static String getTokenId(String jsonWebToken, String base64Security){
-        return parseJwt(jsonWebToken,base64Security).getId();
-    }
-
 }
