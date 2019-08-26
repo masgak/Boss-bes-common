@@ -16,9 +16,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
@@ -150,7 +147,7 @@ public class CommonFieldAspect {
         /**
          * @// FIXME: 2019/8/24 从配置文件获取密钥base64Security
          */
-        return (Long)JwtUtils.get(token,"userId");
+        return (Long)JwtUtils.get(token,"userId","");
     }
 
     /**
