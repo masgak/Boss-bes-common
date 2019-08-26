@@ -4,6 +4,7 @@ import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
 import com.bosssoft.bes.base.enums.SystemExceptionEnum;
 import com.bosssoft.bes.base.exception.ServiceException;
 import com.bosssoft.bes.base.utils.JwtUtils;
+import com.nimbusds.jose.jwk.RSAKey;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,6 +12,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -144,10 +146,12 @@ public class CommonFieldAspect {
         if(null == token){
             throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_REQUEST_PARSE_ERROR);
         }
-        /**
-         * @// FIXME: 2019/8/24 从配置文件获取密钥base64Security
-         */
-        return (Long)JwtUtils.get(token,"userId","");
+
+        RedisTemplate redisTemplate = new RedisTemplate();
+        String rsaRedisKey = "rsa_pub_key";
+        ValueOperations ops = redisTemplate.opsForValue();
+        RSAKey key = (RSAKey) ops.get(rsaRedisKey);
+        return (Long)JwtUtils.get(token,key,"userId");
     }
 
     /**
