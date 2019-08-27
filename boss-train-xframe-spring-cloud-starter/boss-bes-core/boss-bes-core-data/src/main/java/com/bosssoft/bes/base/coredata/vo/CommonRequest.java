@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @updatedTime 2019/8/22 11:03
  *
  */
-public class CommonRequest implements Serializable {
+public class CommonRequest<T>{
     /**
      * 请求头部
      */
@@ -21,11 +21,11 @@ public class CommonRequest implements Serializable {
     /**
      * 请求体
      */
-    private Object body;
+    private T body;
 
     public CommonRequest(){}
 
-    public CommonRequest(RequestHead requestHead, Object body) {
+    public CommonRequest(RequestHead requestHead, T body) {
         this.requestHead = requestHead;
         this.body = body;
     }
@@ -50,7 +50,7 @@ public class CommonRequest implements Serializable {
         return body;
     }
 
-    public void setBody(Object body) {
+    public void setBody(T body) {
         this.body = body;
     }
 }

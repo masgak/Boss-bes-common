@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @updatedTime 2019/8/22 10:03
  *
  */
-public class CommonResponse<T> implements Serializable {
+public class CommonResponse<T>{
     /**
      * 响应头部
      */
