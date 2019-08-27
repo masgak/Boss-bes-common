@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @updatedTime 2019/8/22 11:03
  *
  */
-public class CommonRequest<T> implements Serializable {
+public class CommonRequest<T>{
     /**
      * 请求头部
      */
