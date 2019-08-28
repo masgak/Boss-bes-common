@@ -1,6 +1,6 @@
 package com.bosssoft.bes.base.coredata.vo;
 
-import java.io.Serializable;
+import javax.validation.Valid;
 
 /**
  * 请求类型的公共封装
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @updatedTime 2019/8/22 11:03
  *
  */
-public class CommonRequest<T>{
+public class CommonRequest<T> {
     /**
      * 请求头部
      */
@@ -21,6 +21,7 @@ public class CommonRequest<T>{
     /**
      * 请求体
      */
+    @Valid
     private T body;
 
     public CommonRequest(){}
@@ -46,7 +47,7 @@ public class CommonRequest<T>{
         this.requestHead = requestHead;
     }
 
-    public Object getBody() {
+    public T getBody() {
         return body;
     }
 

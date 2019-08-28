@@ -102,11 +102,11 @@ public class LogAspect {
 		requestArgs=JSON.toJSONString(joinPoint.getArgs());
 
 		LOGGER.info("==============================Start==============================");
-		LOGGER.info("URL							:	{}",url);
+		LOGGER.info("URL					:	{}",url);
 		LOGGER.info("Descrption				:	{}",description);
 		LOGGER.info("HTTP Method			:	{}",httpMethod);
 		LOGGER.info("Class Method			: 	{}",classMethod);
-		LOGGER.info("IP				       		: 	{}",ip);
+		LOGGER.info("IP     		        : 	{}",ip);
 		LOGGER.info("Request Args			:	{}",requestArgs);
 	}
 
