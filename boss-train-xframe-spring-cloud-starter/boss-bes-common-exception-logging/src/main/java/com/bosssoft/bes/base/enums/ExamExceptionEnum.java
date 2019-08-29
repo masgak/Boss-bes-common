@@ -7,7 +7,7 @@ public enum ExamExceptionEnum {
     PUBLISH_EXAM_REPEAT(240101, "重复发布"),
     PUBLISH_EXAM_IN_USE(240102, "删除的数据正在被使用"),
     PUBLISH_EXAM_NON_EXISTENT(240103, "数据不存在"),
-    PUBLISH_EXAM_VERSION_DISACORD(2400104, "修改的数据版本不一样"),
+    PUBLISH_EXAM_VERSION_DISACORD(240104, "修改的数据版本不一样"),
     PUBLISH_EXAM_QRCODE_FAIL(240105, "二维码生成失败"),
     /**
      * 手机答卷

@@ -100,6 +100,15 @@ public class GlobalException extends RuntimeException {
         this.code = systemExceptionEnum.getCode();
     }
 
+    /**
+     * 统一异常
+     * @param e
+     */
+    public GlobalException(GlobalException e){
+        super(e.getMessage());
+        this.code =  e.getCode();
+    }
+
     public Integer getCode() {
         return code;
     }
