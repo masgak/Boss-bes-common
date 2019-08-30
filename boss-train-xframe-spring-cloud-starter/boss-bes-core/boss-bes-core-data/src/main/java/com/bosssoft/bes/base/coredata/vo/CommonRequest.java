@@ -46,7 +46,7 @@ public class CommonRequest<T>{
         this.requestHead = requestHead;
     }
 
-    public Object getBody() {
+    public T getBody() {
         return body;
     }
 
