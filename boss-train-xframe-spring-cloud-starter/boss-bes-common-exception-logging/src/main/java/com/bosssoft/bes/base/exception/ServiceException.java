@@ -86,4 +86,12 @@ public class ServiceException extends GlobalException implements Serializable {
     public ServiceException(SystemExceptionEnum systemExceptionEnum) {
         super(systemExceptionEnum);
     }
+
+    /**
+     * 用于ServiceException传递DaoException
+     * @param daoException
+     */
+    public ServiceException(DaoException daoException){
+        super(daoException);
+    }
 }

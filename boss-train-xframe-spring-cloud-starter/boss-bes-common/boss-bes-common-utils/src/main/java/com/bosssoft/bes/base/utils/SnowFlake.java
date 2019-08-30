@@ -103,13 +103,6 @@ public class SnowFlake {
     private long getNewstmp() {
         return System.currentTimeMillis();
     }
-
-    public static void main(String[] args) {
-        SnowFlake snowFlake = new SnowFlake(2, 3);
-        for (int i = 0; i < 200; i++) {
-            System.out.println(snowFlake.nextId());
-        }
-    }
 }
 
 

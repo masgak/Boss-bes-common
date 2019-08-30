@@ -88,4 +88,12 @@ public class BusinessException extends GlobalException implements Serializable {
     public BusinessException(SystemExceptionEnum systemExceptionEnum) {
         super(systemExceptionEnum);
     }
+
+    /**
+     * 用于BusinessException传递ServiceException
+     * @param serviceException
+     */
+    public BusinessException(ServiceException serviceException){
+        super(serviceException);
+    }
 }
