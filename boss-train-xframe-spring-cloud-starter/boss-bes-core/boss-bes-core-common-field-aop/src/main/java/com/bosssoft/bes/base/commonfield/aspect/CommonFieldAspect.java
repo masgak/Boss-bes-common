@@ -101,7 +101,10 @@ public class CommonFieldAspect {
             if(TYPE_QUERY.equals(methodType)){
                 commonField.setUpdatedBy(null);
                 commonField.setUpdatedTime(null);
-                commonField.setCreatedBy(null);
+            }
+            if(TYPE_UPDATE.equals(methodType)){
+                commonField.setOrgId(null);
+                commonField.setCompanyId(null);
             }
         }
         //获取切点第一个参数

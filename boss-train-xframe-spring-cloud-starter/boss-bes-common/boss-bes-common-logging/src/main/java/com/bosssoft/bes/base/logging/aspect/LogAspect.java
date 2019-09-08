@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author : huangyuhui
@@ -99,7 +101,19 @@ public class LogAspect {
 		classMethod=joinPoint.getSignature().getDeclaringTypeName()+"."
 				+joinPoint.getSignature().getName();
 		ip=request.getRemoteAddr();
-		requestArgs=JSON.toJSONString(joinPoint.getArgs());
+
+		Object[] objects=joinPoint.getArgs();
+		List<Object> list=new ArrayList<>();
+		for(Object o:objects){
+			try {
+				JSON.toJSONString(o);
+			}catch (Exception e){
+				LOGGER.error("存在不能转化成JSONString的请求参数:",e);
+				continue;
+			}
+			list.add(o);
+		}
+		requestArgs=JSON.toJSONString(list);
 
 		LOGGER.info("==============================Start==============================");
 		LOGGER.info("URL					:	{}",url);
