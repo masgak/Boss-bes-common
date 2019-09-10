@@ -1,10 +1,9 @@
 package com.bosssoft.bes.base.resolver;
 
-import com.bosssoft.bes.base.enums.SystemExceptionEnum;
-import com.bosssoft.bes.base.exception.BusinessException;
-import com.bosssoft.bes.base.exception.ServiceException;
-import com.bosssoft.bes.base.utils.ResultUtils;
 import com.bosssoft.bes.base.coredata.vo.CommonResponse;
+import com.bosssoft.bes.base.enums.SystemExceptionEnum;
+import com.bosssoft.bes.base.exception.GlobalException;
+import com.bosssoft.bes.base.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,16 +32,14 @@ public class GlobalExceptionResolver {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionResolver.class);
 
-    @ExceptionHandler({BusinessException.class, MethodArgumentNotValidException.class, BindException.class , ServiceException.class})
+    @ExceptionHandler({Exception.class})
     @ResponseBody
     public CommonResponse handleException(Exception e) {
-        if (e instanceof ServiceException){
-            return ResultUtils.error(((ServiceException) e).getCode(), e.getMessage());
-        }
         //判断是否是系统自定义异常
-        if (e instanceof BusinessException) {
-            return ResultUtils.error(((BusinessException) e).getCode(), e.getMessage());
+        if (e instanceof GlobalException){
+            return ResultUtils.error(((GlobalException) e).getCode(), e.getMessage());
         }
+
         //判断是否是参数异常,并且没有使用@RequestBody
         if (e instanceof BindException) {
             //此处的BindException为Spring框架抛出的Validation异常
