@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 异常类自动装配
  * @ClassName: ExceptionAutoConfiguration
  * @Description: TODO
  * @Author: lujinshan
@@ -18,6 +19,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ExceptionAutoConfiguration {
 
+    /**
+     * 配置异常切面
+     * @return
+     */
     @Bean
     @ConditionalOnClass(GlobalExceptionAspect.class)
     @ConditionalOnMissingBean(GlobalExceptionAspect.class)
@@ -26,6 +31,10 @@ public class ExceptionAutoConfiguration {
         return  new GlobalExceptionAspect();
     }
 
+    /**
+     * 配置统一异常
+     * @return
+     */
     @Bean
     @ConditionalOnClass(GlobalExceptionResolver.class)
     @ConditionalOnMissingBean(GlobalException.class)

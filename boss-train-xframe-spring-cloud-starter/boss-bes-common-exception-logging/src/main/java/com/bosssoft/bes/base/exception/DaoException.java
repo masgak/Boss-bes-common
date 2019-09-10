@@ -5,6 +5,7 @@ import com.bosssoft.bes.base.enums.*;
 import java.io.Serializable;
 
 /**
+ * Dao异常
  * @ClassName: DaoException
  * @Description: TODO
  * @Author: lujinshan

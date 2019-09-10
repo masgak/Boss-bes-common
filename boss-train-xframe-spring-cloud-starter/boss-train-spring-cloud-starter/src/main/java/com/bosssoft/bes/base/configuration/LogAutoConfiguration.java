@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 日志类自动装配
  * @ClassName: LogAutoConfiguration
  * @Description: TODO
  * @Author: lujinshan

@@ -5,6 +5,7 @@ import com.bosssoft.bes.base.enums.*;
 import java.io.Serializable;
 
 /**
+ * service异常
  * @ClassName: ServiceException
  * @Description: TODO
  * @Author: lujinshan

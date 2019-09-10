@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 邮箱工具类自动装配
  * @ClassName: EmailAutoConfiguration
  * @Description: TODO
  * @Author: lujinshan
@@ -20,6 +21,11 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(EmailService.class)
 @EnableConfigurationProperties(EmailProperties.class)
 public class EmailAutoConfiguration {
+    /**
+     * 配置EmailService
+     * @param emailProperties
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean(EmailService.class)
     public EmailService emailService(EmailProperties emailProperties){
@@ -27,6 +33,10 @@ public class EmailAutoConfiguration {
         return emailService;
     }
 
+    /**
+     * 配置邮箱工具类
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean(EmailUtils.class)
     public EmailUtils emailUtils(){
