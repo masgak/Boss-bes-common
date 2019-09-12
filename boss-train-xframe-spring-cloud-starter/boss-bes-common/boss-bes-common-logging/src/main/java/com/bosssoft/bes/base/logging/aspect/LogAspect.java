@@ -108,7 +108,7 @@ public class LogAspect {
 			try {
 				JSON.toJSONString(o);
 			}catch (Exception e){
-				LOGGER.error("存在不能转化成JSONString的请求参数:",e);
+				LOGGER.info("存在不能转化成JSONString的请求参数:",e);
 				continue;
 			}
 			list.add(o);

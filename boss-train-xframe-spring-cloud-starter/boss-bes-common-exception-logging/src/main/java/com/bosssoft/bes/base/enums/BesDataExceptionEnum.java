@@ -10,6 +10,10 @@ public enum BesDataExceptionEnum {
     DICTIONARY_VERSION_DISACCORD(200104, "数据字典版本不一致"),
     DICTIONARY_IMPORT_FORMAT_ERROR(200105, "导入数据字典时数据格式错误"),
     DICTIONARY_EXPORT_ERROR(200106, "导出数据字典异常"),
+    DICTIONARY_DELETE_ERROR(200107,"数据库删除数据失败"),
+    DICTIONARY_INSERT_ERROR(200108,"数据库插入数据失败"),
+    DICTIONARY_UPDATE_ERROR(200109,"数据库修改数据失败"),
+    DICTIONARY_QUERY_ERROR(200110,"数据库查询数据失败"),
     /**
      * 题目类别异常信息
      */
@@ -18,6 +22,10 @@ public enum BesDataExceptionEnum {
     CATEGORY_NON_EXISTENT(200203, "题目类别不存在"),
     CATEGORY_VERSION_DISACCORD(200204, "题目类别版本不一致"),
     CATEGORY_NODE_NON_EXISTENT(200205, "该节点（题目类别）已不存在"),
+    CATEGORY_DELETE_ERROR(200206,"数据库删除数据失败"),
+    CATEGORY_INSERT_ERROR(200207,"数据库插入数据失败"),
+    CATEGORY_UPDATE_ERROR(200208,"数据库修改数据失败"),
+    CATEGORY_QUERY_ERROR(200209,"数据库查询数据失败"),
     /**
      * 题型异常信息
      */
@@ -25,6 +33,10 @@ public enum BesDataExceptionEnum {
     SUBJECT_TYPE_IN_USE(200302, "删除的题型正在使用"),
     SUBJECT_TYPE_NON_EXISTENT(200303, "题型不存在"),
     SUBJECT_TYPE_VERSION_DISACCORD(200304, "题型版本不一致"),
+    SUBJECT_TYPE_DELETE_ERROR(200305,"数据库删除数据失败"),
+    SUBJECT_TYPE_INSERT_ERROR(200306,"数据库插入数据失败"),
+    SUBJECT_TYPE_UPDATE_ERROR(200307,"数据库修改数据失败"),
+    SUBJECT_TYPE_QUERY_ERROR(200308,"数据库查询数据失败"),
     /**
      * 题目异常信息
      */
