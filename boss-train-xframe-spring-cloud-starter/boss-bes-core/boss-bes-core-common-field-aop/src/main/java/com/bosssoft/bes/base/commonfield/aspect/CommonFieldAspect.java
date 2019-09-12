@@ -117,6 +117,7 @@ public class CommonFieldAspect {
             return 1;
         }
         Field[] fields = commonField.getClass().getDeclaredFields();
+        Field[] fieldParams = param.getClass().getDeclaredFields();
         //遍历CommonField所有字段
         try {
             for (Field field : fields) {
@@ -126,9 +127,16 @@ public class CommonFieldAspect {
                 if (null != fieldValue) {
                     //获取param对应的setter方法后执行
                     String fieldName = field.getName();
-                    fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-                    Method fieldSetter = param.getClass().getMethod("set" + fieldName, field.getType());
-                    fieldSetter.invoke(param, fieldValue);
+                    //by lujinshan 循环遍历参数中是否存在需要被填充的字段
+                    for (Field fieldParam : fieldParams){
+                        String fieldParamName = fieldParam.getName();
+                        if (fieldName.equals(fieldParamName)){
+                            fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+                            Method fieldSetter = param.getClass().getMethod("set" + fieldName, field.getType());
+                            fieldSetter.invoke(param, fieldValue);
+                        }
+                    }
+
                 }
             }
         }catch (Exception e){
@@ -168,9 +176,9 @@ public class CommonFieldAspect {
         String redisKey = "user_info_" + userId;
 
         SetOperations<String,UserInfo> setOperations = redisTemplate.opsForSet();
-        
+
         UserInfo userInfo = setOperations.pop(redisKey);
-        
+
         if(null == userInfo){
             throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_USER_NOT_FOUND_ON_CACHE);
         }
@@ -182,6 +190,7 @@ public class CommonFieldAspect {
         commonField.setCreatedTime(Timestamp.valueOf(LocalDateTime.now()));
         commonField.setUpdatedBy(userInfo.getUserId());
         commonField.setUpdatedTime(commonField.getCreatedTime());
+
         return commonField;
     }
 
