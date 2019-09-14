@@ -63,6 +63,8 @@ public class GlobalExceptionAspect {
         LOGGER.error("args={}", joinPoint.getArgs());
         //异常信息
         LOGGER.error("errMessage={}" + e);
+        //输出异常堆栈信息
+        e.printStackTrace();
     }
 
 }
