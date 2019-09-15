@@ -1,6 +1,17 @@
 package com.bosssoft.bes.base.enums;
 
+/**
+ * 考试服务异常码
+ * @author lujinshan
+ * @date
+ */
 public enum ExamExceptionEnum {
+    /**
+     * 调用服务异常
+     */
+    CALL_PAPER_SERVER_ERROR(240001,"调用试卷服务异常"),
+    CALL_SYSTEM_MANAGE_SERVER_ERROR(240002,"调用系统管理异常"),
+    SEND_EAMIL_ERROR(240003,"发送邮件异常"),
     /**
      * 发布试卷
      */
@@ -35,7 +46,8 @@ public enum ExamExceptionEnum {
     MARKING_EVALUATE_ERROR(240402, "题目评价异常"),
     MARKING_PAPER_VERSION_DISACORD(240403, "试卷版本不一致"),
     MARKING_PAPER_INCOMPLETE(240404, "有未打分题目"),
-    MARKING_PAPER_NET_ERROR(240405, "网络异常");
+    MARKING_PAPER_NET_ERROR(240405, "网络异常")
+    ;
 
 
     /**
