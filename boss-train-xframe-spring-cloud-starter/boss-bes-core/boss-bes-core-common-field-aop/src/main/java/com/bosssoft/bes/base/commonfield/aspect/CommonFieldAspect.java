@@ -1,5 +1,6 @@
 package com.bosssoft.bes.base.commonfield.aspect;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
 import com.bosssoft.bes.base.enums.SystemExceptionEnum;
 import com.bosssoft.bes.base.exception.ServiceException;
@@ -10,8 +11,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -57,6 +60,13 @@ public class CommonFieldAspect {
      * 默认方法类型
      */
     private static final String DEFAULT_METHOD_TYPE = TYPE_UPDATE;
+
+    private final RedisTemplate redisTemplate;
+
+    @Autowired
+    public CommonFieldAspect(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     /**
      * 定义增强处理切入点为CommonField注解所注方法
@@ -180,25 +190,24 @@ public class CommonFieldAspect {
      * @return 需要设置的公共字段对象
      */
     private CommonField getCommonFieldByUserId(Long userId) throws ServiceException {
-        RedisTemplate redisTemplate = new RedisTemplate();
         String redisKey = "user_info_" + userId;
 
-        SetOperations<String,UserInfo> setOperations = redisTemplate.opsForSet();
+        ValueOperations valueOperations = redisTemplate.opsForValue();
 
-        UserInfo userInfo = setOperations.pop(redisKey);
-
-        if(null == userInfo){
+        UserInfo userInfo = JSONObject.parseObject(String.valueOf(valueOperations.get(redisKey)),UserInfo.class);
+        if (userInfo == null) {
             throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_USER_NOT_FOUND_ON_CACHE);
         }
 
         CommonField commonField = new CommonField();
+        BeanUtils.copyProperties(userInfo,commonField);
         commonField.setOrgId(userInfo.getOrgId());
         commonField.setCompanyId(userInfo.getCompanyId());
-        commonField.setCreatedBy(userInfo.getUserId());
+        commonField.setCreatedBy(userInfo.getId());
         commonField.setCreatedTime(Timestamp.valueOf(LocalDateTime.now()));
-        commonField.setUpdatedBy(userInfo.getUserId());
+        commonField.setUpdatedBy(userInfo.getId());
         commonField.setUpdatedTime(commonField.getCreatedTime());
-
+        System.out.println(commonField);
         return commonField;
     }
 

@@ -1,0 +1,8 @@
+spring:
+  redis:
+    database: 1
+    host: 58.22.61.222
+    port: 27014
+
+server:
+  port: 10011
