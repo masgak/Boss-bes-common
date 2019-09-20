@@ -48,6 +48,10 @@ public enum BesDataExceptionEnum {
     SUBJECT_VERSION_DISACCORD(200406, "题目版本不一致"),
     SUBJECT_IMPORT_FORMAT_ERROR(200407, "导入题目时数据格式错误"),
     SUBJECT_EXPORT_ERROR(200408, "导出题目异常"),
+    SUBJECT_DELETE_ERROR(200409,"数据库删除数据失败"),
+    SUBJECT_INSERT_ERROR(200410,"数据库插入数据失败"),
+    SUBJECT_UPDATE_ERROR(200411,"数据库修改数据失败"),
+    SUBJECT_QUERY_ERROR(200412,"数据库查询数据失败"),
     /**
      * 组卷配置异常信息
      */
@@ -55,6 +59,10 @@ public enum BesDataExceptionEnum {
     COMB_EXAM_CONFIG_IN_USE(200502, "删除的组卷配置正在使用"),
     COMB_EXAM_CONFIG_NON_EXISTENT(200503, "组卷配置不存在"),
     COMB_EXAM_CONFIG_VERSION_DISACCORD(200504, "组卷配置版本不一致"),
+    COMB_EXAM_CONFIG_DELETE_ERROR(200505,"数据库删除数据失败"),
+    COMB_EXAM_CONFIG_INSERT_ERROR(200506,"数据库插入数据失败"),
+    COMB_EXAM_CONFIG_UPDATE_ERROR(200507,"数据库修改数据失败"),
+    COMB_EXAM_CONFIG_QUERY_ERROR(200508,"数据库查询数据失败"),
     /**
      * 卷模板异常信息
      */
