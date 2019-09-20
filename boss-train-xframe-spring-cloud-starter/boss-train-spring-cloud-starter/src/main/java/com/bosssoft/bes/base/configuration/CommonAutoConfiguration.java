@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import javax.annotation.Resource;
 
 /**
  * @ClassName: CommonAutoConfiguration
@@ -15,12 +18,16 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class CommonAutoConfiguration {
+
+    @Resource
+    private  RedisTemplate redisTemplate;
+
     @Bean
     @ConditionalOnClass(CommonFieldAspect.class)
     @ConditionalOnMissingBean(CommonFieldAspect.class)
     public CommonFieldAspect commonFieldAspect() {
 
-        return  new CommonFieldAspect();
+        return  new CommonFieldAspect(redisTemplate);
     }
 
 }
