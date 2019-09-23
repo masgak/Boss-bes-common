@@ -1,6 +1,7 @@
 package com.bosssoft.bes.base.commonfield.aspect;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 封装所有需要设置的公共字段类
@@ -21,6 +22,12 @@ public class CommonField {
      * 公司id
      */
     private Long companyId;
+
+    private Boolean manager;
+
+    private Byte managerLevel;
+
+    private List<RoleSimpleInfo> roles;
     /**
      * 创建人id
      */
@@ -38,13 +45,14 @@ public class CommonField {
      */
     private Timestamp updatedTime;
 
-    public CommonField(){}
-
     @Override
     public String toString() {
         return "CommonField{" +
                 "orgId=" + orgId +
                 ", companyId=" + companyId +
+                ", manager=" + manager +
+                ", managerLevel=" + managerLevel +
+                ", roles=" + roles +
                 ", createdBy=" + createdBy +
                 ", createdTime=" + createdTime +
                 ", updatedBy=" + updatedBy +
@@ -66,6 +74,30 @@ public class CommonField {
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
+    }
+
+    public Boolean getManager() {
+        return manager;
+    }
+
+    public void setManager(Boolean manager) {
+        this.manager = manager;
+    }
+
+    public Byte getManagerLevel() {
+        return managerLevel;
+    }
+
+    public void setManagerLevel(Byte managerLevel) {
+        this.managerLevel = managerLevel;
+    }
+
+    public List<RoleSimpleInfo> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleSimpleInfo> roles) {
+        this.roles = roles;
     }
 
     public Long getCreatedBy() {

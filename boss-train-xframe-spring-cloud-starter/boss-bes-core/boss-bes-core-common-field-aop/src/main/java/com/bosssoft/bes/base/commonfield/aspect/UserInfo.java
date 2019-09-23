@@ -1,28 +1,60 @@
 package com.bosssoft.bes.base.commonfield.aspect;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
- * 用户基本信息类
+ *
  *
  * @author 李旭阳
- * @createdTime 2019/8/22 13:57
+ * @createdTime 2019/9/20 14:53
  * @version 1.0.0
  * @updateBy 李旭阳
- * @updatedTime 2019/8/22 13:57
+ * @updatedTime 2019/9/20 14:53
  *
  */
-public class UserInfo {
-    private Long userId;
+public class UserInfo implements Serializable {
+    protected Long id;
 
-    private Long orgId;
+    protected Long companyId;
 
-    private Long companyId;
+    protected Long orgId;
 
-    public Long getUserId() {
-        return userId;
+    protected Boolean manager;
+
+    protected Byte managerLevel;
+
+    protected List<RoleSimpleInfo> roles;
+
+    public UserInfo() {
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", companyId=" + companyId +
+                ", orgId=" + orgId +
+                ", manager=" + manager +
+                ", managerLevel=" + managerLevel +
+                ", roles=" + roles +
+                '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public Long getOrgId() {
@@ -33,11 +65,27 @@ public class UserInfo {
         this.orgId = orgId;
     }
 
-    public Long getCompanyId() {
-        return companyId;
+    public Boolean getManager() {
+        return manager;
     }
 
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
+    public void setManager(Boolean manager) {
+        this.manager = manager;
+    }
+
+    public Byte getManagerLevel() {
+        return managerLevel;
+    }
+
+    public void setManagerLevel(Byte managerLevel) {
+        this.managerLevel = managerLevel;
+    }
+
+    public List<RoleSimpleInfo> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleSimpleInfo> roles) {
+        this.roles = roles;
     }
 }
