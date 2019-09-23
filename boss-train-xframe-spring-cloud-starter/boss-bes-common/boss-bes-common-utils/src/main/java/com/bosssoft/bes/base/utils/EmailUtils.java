@@ -1,8 +1,6 @@
 package com.bosssoft.bes.base.utils;
 
 import com.bosssoft.bes.base.properties.EmailProperties;
-import com.bosssoft.bes.base.service.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
@@ -20,8 +18,6 @@ import java.util.Properties;
  */
 public class EmailUtils {
 
-    @Autowired
-    private EmailService emailService;
 
 //    // 发件人账号
 //    public static final String MY_EMAIL_ACCOUNT = "bosssoftexam@163.com";
@@ -39,10 +35,10 @@ public class EmailUtils {
      * @param subject 邮件主题
      * @param content 邮件内容
      */
-    public  void sendSimpleMail(String receiver, String subject, String content) throws AddressException, MessagingException{
+    public static void sendSimpleMail(final EmailProperties emailProperties ,String receiver, String subject, String content) throws AddressException, MessagingException{
+        System.out.println(emailProperties);
         Properties p = new Properties();
-        final EmailProperties emailProperties = emailService.getEmailProperties();
-                p.setProperty("mail.smtp.host", emailProperties.getHost());
+        p.setProperty("mail.smtp.host", emailProperties.getHost());
         p.setProperty("mail.smtp.port", emailProperties.getPort().toString());
         p.setProperty("mail.smtp.socketFactory.port", emailProperties.getPort().toString());
 

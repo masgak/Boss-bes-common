@@ -2,7 +2,6 @@ package com.bosssoft.bes.base.properties;
 
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @ClassName: EmailProperties
@@ -12,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @Version: 1.0.0
  */
 @Data
-@ConfigurationProperties(prefix = "bosssoft.email")
+//@ConfigurationProperties(prefix = "bosssoft.email")
 public class EmailProperties {
     /**
      * 邮箱主机
@@ -20,17 +19,30 @@ public class EmailProperties {
     private String host;
 
     /**
-     *端口
+     * 端口
      */
     private Integer port;
     /**
-     *用户名
+     * 用户名
      */
     private String userName;
     /**
-     *QQ邮箱开启SMTP的授权码
+     * QQ邮箱开启SMTP的授权码
      */
     private String password;
+
+    public EmailProperties() {
+    }
+
+    @Override
+    public String toString() {
+        return "EmailProperties{" +
+                "host='" + host + '\'' +
+                ", port=" + port +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 
     public String getHost() {
         return host;
