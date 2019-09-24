@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -66,6 +68,17 @@ public class CommonFieldAspect {
     @Autowired
     public CommonFieldAspect(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
+        init();
+    }
+
+    /**
+     * 设置redisTemplate采用stringSerializer
+     */
+    private void init(){
+        RedisSerializer<String> stringSerializer = new StringRedisSerializer();
+        redisTemplate.setValueSerializer(stringSerializer);
+        redisTemplate.setKeySerializer(stringSerializer);
+        redisTemplate.setHashKeySerializer(stringSerializer);
     }
 
     /**
