@@ -23,6 +23,7 @@ public enum ExamExceptionEnum {
     PUBLISH_EXAM_DELETE_REEOR(240106,"删除失败"),
     PUBLISH_EXAM_UPDATE_ERROR(240107,"修改数据失败"),
     PUBLISH_EXAM_INSERT_ERROR(240108,"插入失败"),
+    PUBLISH_EXAM_SELECT_ERROR(240109,"查询失败"),
     /**
      * 手机答卷
      */
