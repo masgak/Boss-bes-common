@@ -11,13 +11,14 @@ public enum ExamExceptionEnum {
      */
     CALL_PAPER_SERVER_ERROR(240001,"调用试卷服务异常"),
     CALL_SYSTEM_MANAGE_SERVER_ERROR(240002,"调用系统管理异常"),
-    SEND_EAMIL_ERROR(240003,"发送邮件异常"),
+    CALL_BASE_DATA_SERVER_ERROR(240003,"调用基础数据服务异常"),
+    SEND_EAMIL_ERROR(240004,"发送邮件异常"),
     /**
      * 发布试卷
      */
     PUBLISH_EXAM_REPEAT(240101, "重复发布"),
     PUBLISH_EXAM_IN_USE(240102, "删除的数据正在被使用"),
-    PUBLISH_EXAM_NON_EXISTENT(240103, "数据不存在"),
+    PUBLISH_EXAM_NON_EXISTENT(240103, "数据不存在，或者已被修改"),
     PUBLISH_EXAM_VERSION_DISACORD(240104, "数据版本不一样"),
     PUBLISH_EXAM_QRCODE_FAIL(240105, "二维码生成失败"),
     PUBLISH_EXAM_DELETE_REEOR(240106,"删除失败"),
@@ -32,7 +33,7 @@ public enum ExamExceptionEnum {
     ANSWER_USER_NAME_EMPTY(240203,"姓名为空"),
     ANSWER_SEX_EMPTY(240204,"性别为空"),
     ANSWER_TEL_EMPTY(240205,"手机号为空"),
-    ANSWER_EXAM_NON_EXISTENT(240206,"考试记录不存在"),
+    ANSWER_EXAM_NON_EXISTENT(240206,"考试记录不存在，或者已被修改"),
     ANSWER_EXAM_ACTUAL_END(240207,"考试已经结束"),
     ANSWER_UPLOAD_IMAGE_FAIL(240208,"上传图片失败"),
     ANSWER_UPLOAD_IMAGE_TYPE_ERROR(240209,"上传图片格式不对，请上传.jpg、.png、.jpeg格式的文件"),
