@@ -1,5 +1,10 @@
 package com.bosssoft.bes.base.enums;
 
+/**
+ * 系统异常码
+ * @author lujinshan
+ * @date
+ */
 public enum SystemExceptionEnum {
     SYSTEM_ERROR(100000,"系统异常"),
     SYSTEM_BASE_COMMON_FIELD_USER_NOT_FOUND_ON_CACHE(100001,"缓存未找到用户信息"),

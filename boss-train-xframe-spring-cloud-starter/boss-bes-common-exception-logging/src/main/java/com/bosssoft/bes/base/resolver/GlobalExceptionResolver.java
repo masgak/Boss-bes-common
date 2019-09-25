@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +35,13 @@ public class GlobalExceptionResolver {
 
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    public CommonResponse handleException(Exception e) {
+    public CommonResponse handleException(HttpServletRequest request, Exception e) {
+        //输出异常堆栈信息
+        e.printStackTrace();
         //判断是否是系统自定义异常
         if (e instanceof GlobalException){
             return ResultUtils.error(((GlobalException) e).getCode(), e.getMessage());
         }
-
         //判断是否是参数异常,并且没有使用@RequestBody
         if (e instanceof BindException) {
             //此处的BindException为Spring框架抛出的Validation异常
@@ -55,7 +57,7 @@ public class GlobalExceptionResolver {
         }
         //判断是否是参数异常,并且使用@RequestBody
         if (e instanceof MethodArgumentNotValidException) {
-            LOGGER.info(((MethodArgumentNotValidException) e).getBindingResult().getAllErrors().toString());
+//            LOGGER.info(((MethodArgumentNotValidException) e).getBindingResult().getAllErrors().toString());
             MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) e;
             //抛出的异常可能不止一个
             List<ObjectError> errorList = methodArgumentNotValidException.getBindingResult().getAllErrors();

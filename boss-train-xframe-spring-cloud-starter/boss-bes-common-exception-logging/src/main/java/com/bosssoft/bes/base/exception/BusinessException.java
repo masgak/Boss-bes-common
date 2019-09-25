@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 /**
  * 业务异常
+ *
  * @ClassName: BusinessException
  * @Description: TODO
  * @Author: lujinshan
@@ -13,12 +14,9 @@ import java.io.Serializable;
  * @Version: 1.0.0
  */
 public class BusinessException extends GlobalException implements Serializable {
-
-
-    private static final long serialVersionUID = 7990151765604765170L;
-
     /**
      * 基础数据服务异常
+     *
      * @param besDataExceptionEnum
      */
     public BusinessException(BesDataExceptionEnum besDataExceptionEnum) {
@@ -27,6 +25,7 @@ public class BusinessException extends GlobalException implements Serializable {
 
     /**
      * 考试服务异常
+     *
      * @param examExceptionEnum
      */
     public BusinessException(ExamExceptionEnum examExceptionEnum) {
@@ -35,6 +34,7 @@ public class BusinessException extends GlobalException implements Serializable {
 
     /**
      * 试卷服务异常
+     *
      * @param paperExceptionEnum
      */
     public BusinessException(PaperExceptionEnum paperExceptionEnum) {
@@ -43,6 +43,7 @@ public class BusinessException extends GlobalException implements Serializable {
 
     /**
      * 系统管理异常
+     *
      * @param systemManageExceptionEnum
      */
     public BusinessException(SystemManageExceptionEnum systemManageExceptionEnum) {
@@ -51,6 +52,7 @@ public class BusinessException extends GlobalException implements Serializable {
 
     /**
      * 认证服务异常
+     *
      * @param authenticationExceptionEnum
      */
     public BusinessException(AuthenticationExceptionEnum authenticationExceptionEnum) {
@@ -59,6 +61,7 @@ public class BusinessException extends GlobalException implements Serializable {
 
     /**
      * CDN服务异常
+     *
      * @param cdnExceptionEnum
      */
     public BusinessException(CDNExceptionEnum cdnExceptionEnum) {
@@ -66,7 +69,8 @@ public class BusinessException extends GlobalException implements Serializable {
     }
 
     /**
-     * 网关异常
+     * 网关服务异常
+     *
      * @param gatewayExceptionEnum
      */
     public BusinessException(GatewayExceptionEnum gatewayExceptionEnum) {
@@ -74,7 +78,8 @@ public class BusinessException extends GlobalException implements Serializable {
     }
 
     /**
-     * 日志异常
+     * 日志服务异常
+     *
      * @param logExceptionEnum
      */
     public BusinessException(LogExceptionEnum logExceptionEnum) {
@@ -83,6 +88,7 @@ public class BusinessException extends GlobalException implements Serializable {
 
     /**
      * 系统异常
+     *
      * @param systemExceptionEnum
      */
     public BusinessException(SystemExceptionEnum systemExceptionEnum) {
@@ -90,10 +96,122 @@ public class BusinessException extends GlobalException implements Serializable {
     }
 
     /**
-     * 用于BusinessException传递ServiceException
-     * @param serviceException
+     * 基础数据服务异常，带异常堆栈信息
+     *
+     * @param besDataExceptionEnum
+     * @param cause
      */
-    public BusinessException(ServiceException serviceException){
-        super(serviceException);
+    public BusinessException(BesDataExceptionEnum besDataExceptionEnum, Throwable cause) {
+        super(besDataExceptionEnum, cause);
+    }
+
+    /**
+     * 考试服务异常，带异常堆栈信息
+     *
+     * @param examExceptionEnum
+     * @param cause
+     */
+    public BusinessException(ExamExceptionEnum examExceptionEnum, Throwable cause) {
+        super(examExceptionEnum, cause);
+    }
+
+    /**
+     * 试卷服务异常，带异常堆栈信息
+     *
+     * @param paperExceptionEnum
+     * @param cause
+     */
+    public BusinessException(PaperExceptionEnum paperExceptionEnum, Throwable cause) {
+        super(paperExceptionEnum, cause);
+    }
+
+    /**
+     * 系统管理异常，带异常堆栈信息
+     *
+     * @param systemManageExceptionEnum
+     * @param cause
+     */
+    public BusinessException(SystemManageExceptionEnum systemManageExceptionEnum, Throwable cause) {
+        super(systemManageExceptionEnum, cause);
+    }
+
+    /**
+     * 认证服务异常，带异常堆栈信息
+     *
+     * @param authenticationExceptionEnum
+     * @param cause
+     */
+    public BusinessException(AuthenticationExceptionEnum authenticationExceptionEnum, Throwable cause) {
+        super(authenticationExceptionEnum, cause);
+    }
+
+    /**
+     * CDN服务异常，带异常堆栈信息
+     *
+     * @param cdnExceptionEnum
+     * @param cause
+     */
+    public BusinessException(CDNExceptionEnum cdnExceptionEnum, Throwable cause) {
+        super(cdnExceptionEnum, cause);
+    }
+
+    /**
+     * 网关服务异常，带异常堆栈信息
+     *
+     * @param gatewayExceptionEnum
+     * @param cause
+     */
+    public BusinessException(GatewayExceptionEnum gatewayExceptionEnum, Throwable cause) {
+        super(gatewayExceptionEnum, cause);
+    }
+
+    /**
+     * 日志服务异常，带异常堆栈信息
+     *
+     * @param logExceptionEnum
+     * @param cause
+     */
+    public BusinessException(LogExceptionEnum logExceptionEnum, Throwable cause) {
+        super(logExceptionEnum, cause);
+    }
+
+    /**
+     * 系统异常，带异常堆栈信息
+     *
+     * @param systemExceptionEnum
+     * @param cause
+     */
+    public BusinessException(SystemExceptionEnum systemExceptionEnum, Throwable cause) {
+        super(systemExceptionEnum, cause);
+    }
+
+    /**
+     * 手动抛异常，带异常堆栈信息
+     *
+     * @param code
+     * @param message
+     * @param cause
+     */
+    public BusinessException(Integer code, String message, Throwable cause) {
+        super(code, message, cause);
+    }
+
+    /**
+     * 手动抛异常
+     *
+     * @param code
+     * @param message
+     */
+    public BusinessException(Integer code, String message) {
+        super(code, message);
+    }
+
+    /**
+     * 统一异常
+     *
+     * @param e
+     */
+    public BusinessException(GlobalException e) {
+        super(e);
     }
 }
