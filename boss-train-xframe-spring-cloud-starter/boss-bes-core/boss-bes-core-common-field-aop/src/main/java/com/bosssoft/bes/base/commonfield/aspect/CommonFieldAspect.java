@@ -184,16 +184,8 @@ public class CommonFieldAspect {
     private Long getUserIdFromRequest() throws ServiceException {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
                 .getRequestAttributes())).getRequest();
-        String token = request.getHeader("token");
-        if (null == token) {
-            throw new ServiceException(SystemExceptionEnum.SYSTEM_BASE_COMMON_FIELD_REQUEST_PARSE_ERROR);
-        }
-
-        RedisTemplate redisTemplate = new RedisTemplate();
-        String rsaRedisKey = "rsa_pub_key";
-        ValueOperations ops = redisTemplate.opsForValue();
-        RSAKey key = (RSAKey) ops.get(rsaRedisKey);
-        return (Long) JwtUtils.get(token, key, "userId");
+        Long userId = Long.valueOf(request.getHeader("userId"));
+        return userId;
     }
 
     /**
