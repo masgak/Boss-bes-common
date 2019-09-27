@@ -37,6 +37,8 @@ public enum ExamExceptionEnum {
     ANSWER_EXAM_ACTUAL_END(240207,"考试已经结束"),
     ANSWER_UPLOAD_IMAGE_FAIL(240208,"上传图片失败"),
     ANSWER_UPLOAD_IMAGE_TYPE_ERROR(240209,"上传图片格式不对，请上传.jpg、.png、.jpeg格式的文件"),
+    ANSWER_EXAM_NOT_START(240210,"考试还未开始，请确认考试时间"),
+
     /**
      * 答卷查询
      */
