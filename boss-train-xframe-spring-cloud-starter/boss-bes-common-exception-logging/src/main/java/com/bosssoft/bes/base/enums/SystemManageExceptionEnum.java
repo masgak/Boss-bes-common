@@ -67,7 +67,10 @@ public enum SystemManageExceptionEnum {
      */
     ONLINE_USER_DOWM(220901, "该用户已下线"),
     NON_PERMISSION_DOWN_USER(220902, "没有强制下线权限"),
-    ONLINE_USER_EXPORT_ERROR(220903, "导出在线用户数据异常");
+    ONLINE_USER_EXPORT_ERROR(220903, "导出在线用户数据异常"),
+    ONLINE_ERROR(220904,"系统繁忙"),
+    DOWN_USER_ERROR(220905, "强制下线失败")
+    ;
 
 
     /**
