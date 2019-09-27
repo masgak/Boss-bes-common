@@ -36,7 +36,8 @@ public enum PaperExceptionEnum {
     ERROR_TEMPLATE_MARK(230404,"错误的模板标记"),
     PAPER_INFO_UPDATE_FAILED(230405,"试卷信息更新失败"),
     TOO_OLD_PAPER_VERSION(230406,"过旧的试卷版本"),
-    PAPER_DELETE_FAILED(230407,"试卷删除失败");
+    PAPER_QUERY_PERMISSION_DENIED(230407,"查询权限不足"),
+    PAPER_DELETE_FAILED(230408,"试卷删除失败");
 
 
     /**
