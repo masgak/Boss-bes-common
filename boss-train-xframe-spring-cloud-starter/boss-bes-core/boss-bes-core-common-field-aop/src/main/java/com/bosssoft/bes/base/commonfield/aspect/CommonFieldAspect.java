@@ -6,6 +6,7 @@ import com.bosssoft.bes.base.enums.SystemExceptionEnum;
 import com.bosssoft.bes.base.exception.ServiceException;
 import com.bosssoft.bes.base.utils.JwtUtils;
 import com.nimbusds.jose.jwk.RSAKey;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -141,8 +142,8 @@ public class CommonFieldAspect {
         if (null == param) {
             return 1;
         }
-        Field[] fields = commonField.getClass().getDeclaredFields();
-        Field[] fieldParams = param.getClass().getDeclaredFields();
+        Field[] fields = FieldUtils.getAllFields(commonField.getClass());
+        Field[] fieldParams =  FieldUtils.getAllFields(param.getClass());
         //遍历CommonField所有字段
         try {
             for (Field field : fields) {
