@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class CommonField {
     /**
+     * 用户ID
+     */
+    private Long userId;
+    /**
      * 组织机构id
      */
     private Long orgId;
@@ -48,7 +52,8 @@ public class CommonField {
     @Override
     public String toString() {
         return "CommonField{" +
-                "orgId=" + orgId +
+                "userId=" + userId +
+                ", orgId=" + orgId +
                 ", companyId=" + companyId +
                 ", manager=" + manager +
                 ", managerLevel=" + managerLevel +
@@ -58,6 +63,14 @@ public class CommonField {
                 ", updatedBy=" + updatedBy +
                 ", updatedTime=" + updatedTime +
                 '}';
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getOrgId() {

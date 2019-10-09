@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.bosssoft.bes.base.commonfield.annotation.SetCommonField;
 import com.bosssoft.bes.base.enums.SystemExceptionEnum;
 import com.bosssoft.bes.base.exception.ServiceException;
-import com.bosssoft.bes.base.utils.JwtUtils;
-import com.nimbusds.jose.jwk.RSAKey;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,7 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -207,6 +204,7 @@ public class CommonFieldAspect {
 
         CommonField commonField = new CommonField();
         BeanUtils.copyProperties(userInfo,commonField);
+        commonField.setUserId(userId);
         commonField.setOrgId(userInfo.getOrgId());
         commonField.setCompanyId(userInfo.getCompanyId());
         commonField.setCreatedBy(userInfo.getId());
