@@ -6,6 +6,7 @@ package com.bosssoft.bes.base.enums;
  * @date
  */
 public enum ExamExceptionEnum {
+    PUBLISHER_NON_EXISTENT(240000,"不存在该试卷发布人"),
     /**
      * 调用服务异常
      */
