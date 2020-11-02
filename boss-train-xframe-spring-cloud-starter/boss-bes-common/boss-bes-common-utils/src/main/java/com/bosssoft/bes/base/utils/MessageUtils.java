@@ -19,13 +19,13 @@ public class MessageUtils {
     /**
      * 产品域名,开发者无需替换
      */
-    private static final String DOMAIN = "dysmsapi.aliyuncs.com";
+    private static final String DOMAIN = "";
 
     /**
      * 开发者自己的AK(在阿里云访问控制台寻找)
      */
-    private static final String ACCESS_KEY_ID = "LTAI4tI45rYxPDVb";
-    private static final String ACCESS_KEY_SECRET = "xRoUzn6tdbBL2HWfk7nWbouHQR7RVI";
+    private static final String ACCESS_KEY_ID = "";
+    private static final String ACCESS_KEY_SECRET = "";
 
     /**
      * 发送短信方法
